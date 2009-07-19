@@ -1,0 +1,56 @@
+<% content_for :private_messages_js do %><%= javascript_include_tag "private_messages" %><% end %>
+
+<% @private_messages.each do |pm| %>
+    <div class="content_item">
+        <div class="content_item_title">
+            <h2 class="left"><%= white_list pm.subject %></h2>
+            <h2 class="right">
+                <%= pm.created_at.strftime('%B %m') %> 
+                <%= "<span style='font-weight:normal'>(#{distance_of_time_in_words(pm.created_at, Time.now)} ago), #{pm.created_at.strftime('%I:%M %p')}</span>"%>
+            </h2>
+            <div class="clearer">&nbsp;</div>
+        </div>      
+
+        <div class="content_item_body">
+            <div class="hr" style="margin-bottom:10px;">
+                <strong>FROM: <span id="<%= "pm_sender_" + pm.id.to_s %>"><%=pm.user_id == session[:user_id] ? "Me" : user_link(pm.user_id,pm.username)%></span></strong> | 
+                <strong style="font-size:10px;">TO:</strong> <span style="font-size:10px;" id="<%= "pm_recipients_" + pm.id.to_s %>"><%= pm.recipients.map {|r| r.user_id == session[:user_id] ? "Me" : user_link(r.user.id,r.user.username) }.join("; ")%></span>
+            </div>
+            <div style="background-color:white" class="p5">              
+                <div class="h10"></div>
+                <%= white_list pm.body %>
+                <div class="h10"></div>
+            </div>
+            
+            <div class="h10"></div>
+            <div class="spacer hr"></div>
+
+
+            <% if not is_current_user_sender?(pm) %>
+                <div style="width:100%;text-align:right;margin:0;padding-right:5px;color:rgb(102,102,102);font-size:11px;">
+                    <div class="post_commands ">
+                        <span style="margin-right:6px;"><%= pm_reply_to_link pm.id %></span>
+                        <%= pm_reply_to_all_link pm.id %>
+                    </div>
+                </div>
+            <% end %>
+            <% pm.file_attachments.each do |a| %>
+                <p class="attachment">
+                    <%=view_attachment_link(a)%>
+                </p>
+            <% end %>
+        </div>
+
+        <div class="content_item_bottom"></div>
+    </div>
+    <div class="h10"></div>
+<% end %> 
+
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Compose Reply" } %>
+
+    <div class="content_item_body" id="reply">
+        <%= render :partial => "/private_messages/form", :locals => { :method => :put } %>
+    </div>          
+    <div class="content_item_bottom"></div>
+</div> 

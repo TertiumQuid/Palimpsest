@@ -1,0 +1,29 @@
+<div id="<%=(table_container ||= "table_container")%>">
+    <% unless @private_messages.size == 0 %>
+        <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @private_messages } %>
+        <div class="content_item_body">
+            <table class="tabular" cellspacing="0">
+                <colgroup>
+                    <col width="30%" />
+                    <col width="40%" />
+                    <col width="20%" />
+                    <col width="10%" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <%=sorted_th_link "Subject","subject" %>
+                        <th><%=is_viewing_received_box? ? "Sender" : "Recipients"%></th>
+                        <%=sorted_th_link((is_viewing_received_box? ? "Received On" : "Sent On"),"created_at","sort",true) %>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%= render :partial => "/private_messages/row", :collection => @private_messages, :locals => { :viewing_received => is_viewing_received_box? } %>
+                </tbody>
+            </table>
+        </div>
+        <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @private_messages } %>
+    <% else %>
+        <div class="content_item_body no_records">No messages.</div>
+    <% end %>
+</div>

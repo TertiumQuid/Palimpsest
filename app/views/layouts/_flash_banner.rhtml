@@ -1,0 +1,20 @@
+<div id="flash_banner">
+<% flash.each do |key, msg| %>
+    <div class="flash" id='<%= key %>'>
+        <div class="flash_content">
+            <img src='<%= image_path "flashes/#{key}.gif" %>' /><%= msg %>
+            <div class="clearer">&nbsp;</div>
+        </div>
+        <div class="flash_bottom" id='<%= key %>'></div>
+    </div>   
+
+    <% content_tag :script, :type => "text/javascript" do %>
+          $('<%= key %>').style.display = 'none';
+          new Effect.Appear('<%= key %>', {duration: 2});
+    <% end %>
+
+    <% content_tag :script, :type => "text/javascript" do %>
+          setTimeout("new Effect.Fade('<%= key %>');", 8000);
+    <% end %>
+<% end %> 
+</div>

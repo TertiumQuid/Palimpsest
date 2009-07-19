@@ -1,0 +1,16 @@
+<% unless logged_in? -%>
+<div class="box">
+    <div class="box_title">Login to <%=ConfigurationSetting.get_setting("SiteTitle")%></div>
+    <div class="box_body">
+        <% form_for :login, :url => login_path do |form| %>
+            <%= render :partial => "/layouts/fields/text_field_row", :locals => { :form => form, :fieldname => :username } %>
+            <%= render :partial => "/layouts/fields/password_field_row", :locals => { :form => form, :field => "password" } %>
+            <%= render :partial => "/layouts/fields/checkbox_field_row", :locals => { :form => form, :fieldname => "remember_me", :label => "Remember?" } %>
+            <div class="form_row">
+                <%= submit_tag "&nbsp;&nbsp;Login&nbsp;&nbsp;", :class => "submit" %>
+            </div>
+        <% end %>
+    </div>
+    <div class="box_bottom"></div>
+</div>
+<% end %>

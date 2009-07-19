@@ -1,0 +1,4 @@
+<div class="form_row">
+    <label for="timezone" class="fieldname">Timezone:</label>
+    <%= time_zone_select time_zone_for, :timezone, TimeZone.all, :include_blank => true %>
+</div>

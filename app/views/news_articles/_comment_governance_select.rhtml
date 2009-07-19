@@ -1,0 +1,6 @@
+<div class="form_row">
+    <label for="tags" class="fieldname" >Who Can Comment:</label>
+    <%= form.select :comment_governance_id, CommentGovernance.options_for_select, 
+                    {:class => 'styled'}%>
+    <div class="spacer h5">&nbsp;</div>
+</div>    

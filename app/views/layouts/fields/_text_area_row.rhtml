@@ -1,0 +1,7 @@
+<div class="form_row">
+    <label for="<%=fieldname%>" class="fieldname left">
+        <%=label ||= fieldname.to_s.humanize.titlecase%>:
+    </label>
+    <%= "<span class='fieldinfo left outdent5 p1'>(#{info})</span>" if info ||= nil %>
+    <%= form.text_area fieldname, :rows => (rows ||= 6), :class => css_class ||="textarea" %>
+</div>

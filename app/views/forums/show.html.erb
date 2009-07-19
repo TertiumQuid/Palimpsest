@@ -1,0 +1,21 @@
+<div class="content_item">
+    <div class="content_item_title">
+        <% if can_create_post? %>                    
+            <div class="right"><%= link_to "<input class='submit_small' value='+ New Topic' style='margin:0;' />", new_forum_forum_topic_path(@forum.id) %></div>
+        <% end %>
+        <div class="right"><%= render :partial => "/forums/jump_to_forum", :locals =>  { :forum_id => @forum.id} %></div>
+        <%= forum_breadcrumbs %>
+        <span class="sub">
+            <%= pluralize @forum.forum_topics_count, "topic" %>, 
+            <%= pluralize @forum.forum_posts_count, "post" %>
+        </span>
+        <div class="clearer">&nbsp;</div>
+    </div>    
+    <%= render :partial => "/forum_topics/forum_topic_table" %>
+
+    <div class="content_item_bottom"></div>      
+</div> 
+
+<% content_for :sidebar do %>
+    <%= render :partial => "/layouts/sideboxes/recent_posts", :locals => {:posts => @forum_posts } %>
+<% end %>  

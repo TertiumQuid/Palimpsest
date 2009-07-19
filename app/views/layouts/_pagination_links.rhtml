@@ -1,0 +1,11 @@
+<% css_class ||= "content_item_body" %>
+<% if records.total_pages > 1 or (always_show ||= false) %>
+<div class='<%=css_class%>' style="margin:0 0 1px 0;">
+    <div class="grid_pagination">
+        <div class="page_info">
+            <%=page_entries_info(records)%>
+        </div>
+        <%= will_paginate records, :renderer => 'RemoteLinkRenderer', :params => params  %>   
+    </div>
+</div>  
+<% end %>

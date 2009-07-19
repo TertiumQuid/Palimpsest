@@ -1,0 +1,35 @@
+<div id="<%=(table_container ||= "table_container")%>">
+    <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @audit_logs } %>
+    <div class="content_item_body">
+        <table class="tabular" cellspacing="0">
+            <colgroup>
+                <col width="20%" />
+                <col width="20%" />
+                <col width="12%" />
+                <col width="25%" />
+                <col width="13%" />
+            </colgroup>
+            <thead>
+                  <tr>
+                      <%=sorted_th_link "User","username" %>
+                      <%=sorted_th_link "Date","created_at","sort",true %>
+                      <%=sorted_th_link "Event","event" %>
+                      <%=sorted_th_link "Action","action" %>
+                      <%=sorted_th_link "IP Address","ip_address" %>
+                  </tr>
+            </thead>
+            <tbody>
+                  <% @audit_logs.each do |log| %>
+                  <tr class="<%= cycle('alt', '') %> row">
+                      <td><%= user_link(log.user_id,log.username)%></td>
+                      <td><%= time_ago_in_words(log.created_at) << " ago<br /><span style='font-size:10px;color:#999;'>" << log.created_at.strftime("%b %d, %Y, %I:%M %p") << "</span>" %></td>
+                      <td><%= h(log.event) %></td>
+                      <td><%= h(log.controller << "+" << log.action) %></td>
+                      <td><%= h(log.ip_address) %></td>
+                  </tr>
+                  <% end %>
+            </tbody>
+        </table>
+    </div>
+    <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @audit_logs } %>
+</div>

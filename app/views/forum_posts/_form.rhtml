@@ -1,0 +1,18 @@
+<div class="content_item">
+    <div id="form_errors"><%= error_messages_for "forum_post" %></div>
+    <% remote_form_for [@forum_topic,@forum_post],
+            :loading => "Element.show('spinner')",
+            :complete => "Element.hide('spinner')",
+            :before => "tinyMCE.triggerSave(true,true)",
+            :html => {:id => "forum_post_form"} do |form| %>
+    <%= negative_captcha %>
+    <%= render :partial => "/layouts/fields/text_field_row", :locals => { :form => form, :fieldname => :subject } %>
+    <% use_tinymce -%>
+    <%= render :partial => "/layouts/fields/text_area_row", :locals => { :form => form, :fieldname => :body, :rows => 8 } %>
+    <div class="form_row">
+        <%= render :partial => "/layouts/buttons/submit_button" %>
+        <%= render :partial => "/layouts/buttons/cancel_button" %>
+    </div>
+    <div class="spacer h15"></div>
+<% end %>
+</div>

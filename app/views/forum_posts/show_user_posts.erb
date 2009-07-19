@@ -1,0 +1,51 @@
+<% content_for :forums_js do %><%= javascript_include_tag "forums" %><% end %>
+
+<h1><%= h(@user.display_name) + "'s Forum Posts"%></h1>
+
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => "#{pluralize(@user.forum_posts_count, "post")} since #{@user.created_at.strftime('%b %d, %Y')}" } %>
+
+    <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @forum_posts } %>
+
+    <% unless @forum_posts.size == 0 %>
+        <div class="content_item_body nicelist">
+            <ol>
+            <% @forum_posts.each do |post| %>
+              <li class="<%= cycle('alt', '') %>">
+                    <div class="forum_post_row" style="margin-left:0;">
+                        <%= white_list post.body %>
+                        <% if post.has_been_edited? %>
+                            <div style="font-size:10px;font-style:italic;margin:10px 0 0 5px;">-last edited <%=time_ago_in_words( post.updated_at ) %> ago</div>
+                        <% end %>
+                        <div class="forum_post_row_footer">
+                            <div class="left">posted <%= time_ago_in_words( post.created_at ) + " ago" %> in <%= link_to white_list(post.forum_topic.title), forum_forum_topic_path(post.forum_topic.forum_id,post.forum_topic_id) %></div>
+                            
+                            <% if can_edit_post?(post) %>
+                                <div class="post_commands right">
+                                    <%=link_to "<img src='/images/icons/note_edit.gif' />edit", edit_forum_topic_forum_post_path(post.forum_topic_id,post.id) %>
+
+                                    <% unless post.is_only_post_in_topic? %>            
+                                        <%= link_to('<img src="/images/icons/note_delete.gif" />delete', 
+                                                forum_topic_forum_post_path(post.forum_topic_id,post.id), 
+                                                :method => :delete, 
+                                                :confirm => "Delete this post?  Are you sure?") %>
+                                    <% end %>
+                                </div>
+                            <% end %>
+                            <div class="h10"></div>
+                        </div>
+                    </div>
+              </li>
+            <% end %>
+            </ol>
+        </div>
+    <% else %>
+      <div class="content_item_body">
+          <div class="no_records">No posts created yet.</div>
+      </div>
+    <% end %>
+
+    <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @forum_posts } %>
+
+    <div class="content_item_bottom"></div>
+</div>            

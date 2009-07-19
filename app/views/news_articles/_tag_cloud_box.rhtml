@@ -1,0 +1,12 @@
+<% tag_cloud ||= NewsArticle.tag_counts %>
+<% if tag_cloud.size > 0 %> 
+<div class="box">
+    <div class="box_title">Tag Cloud</div>
+    <div class="box_body">
+        <% tag_cloud tag_cloud, %w(tagcloud1 tagcloud2 tagcloud3 tagcloud4) do |tag, css_class| %>
+            <%= link_to tag.name, news_tag_path(tag.name), :class => css_class %>
+        <% end %>
+    </div>
+    <div class="box_bottom"></div>
+</div>
+<% end %>

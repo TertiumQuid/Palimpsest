@@ -1,0 +1,39 @@
+<% content_for :stylesheets do %>
+    <%= stylesheet_link_tag "calendar" %>
+    <%= stylesheet_link_tag "news" %>
+<% end %>
+
+<div class="content_item">
+    <div class="content_item_title">
+        <strong><%=author_link(@news_article,true)%></strong>
+        <h2 class="article_title"><%=h(@news_article.title)%></h2>
+        <%= category_link(@news_article,"right") %>
+        <% if has_permission? "Publish News Articles" %>
+            <div class="post_commands left">
+				  <div class="h10"></div>
+				  <%= link_to "<img src='/images/icons/note_edit.gif' />edit", edit_news_article_path(@news_article.id) %>
+				  <%= link_to('<img src="/images/icons/note_delete.gif" />delete', 
+							  news_article_path(@news_article.id), 
+							  :method => :delete, 
+							  :confirm => "Delete this article? Are you sure?") %>
+            </div>
+        <% end %>
+        <div class="clearer">&nbsp;</div>
+    </div>
+    <div class="content_item_body">
+        <%= white_list @news_article.body %>	
+        <div class="news_article_footer">
+            <%= footer_tags_for(@news_article) %>
+        </div>
+    </div>            
+    <div class="content_item_bottom"></div>
+</div>
+
+<%= render :partial => "/comments/table", :locals => { :parent => @news_article, :link_to_comment => true, :in_edit_mode => false } %>
+<%= render :partial => "/comments/form", :locals => { :parent => @news_article } %>
+
+<% content_for :sidebar do %>
+    <%= render :partial => "/news_articles/calendar_box" %>
+    <%= render :partial => "/news_articles/tag_cloud_box" %>
+    <%= render :partial => "/news_articles/category_box" %>
+<% end %>  

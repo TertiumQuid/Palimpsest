@@ -1,0 +1,127 @@
+<%= error_messages_for :configuration_setting %>
+
+<% form_tag admin_configure_path, :method => :put do -%>
+    <div class="content_item">
+        <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Global Settings" } %>
+
+        <div class="content_item_body">
+                <div class="form_row">
+                    <label for="SiteTitle" class="fieldname">Site Title:</label>
+                    <%= text_field_tag "SiteTitle", ConfigurationSetting.get_setting( 'SiteTitle' ), :class => 'styled' %>
+                </div>
+                <div class="form_row">
+                    <label for="SiteSlogan" class="fieldname">Site Slogan:</label>
+                    <%= text_field_tag "SiteSlogan", ConfigurationSetting.get_setting( 'SiteSlogan' ), :class => 'styled' %>
+                </div>
+                <div class="form_row">
+                    <label for="SiteURL" class="fieldname">Site URL:</label>
+                    <%= text_field_tag "SiteURL", ConfigurationSetting.get_setting( 'SiteURL' ), :class => 'styled' %>
+                </div>
+                <div class="form_row">
+                    <label for="SiteEmail" class="fieldname">Site Email:</label>
+                    <%= text_field_tag "SiteEmail", ConfigurationSetting.get_setting( 'SiteEmail' ), :class => 'styled' %>
+                </div>
+                <div class="form_row">
+                    <label for="AllowRegistration" class="fieldname">Allow User Registration:</label>
+                    <%= check_box_tag "AllowRegistration", "true", ConfigurationSetting.get_setting_to_bool( 'AllowRegistration' ) %>
+                </div>
+                <div class="form_row">
+                    <label for="RequireRegistrationApproval" class="fieldname">Require Registration Approval:</label>
+                    <%= check_box_tag "RequireRegistrationApproval", "true", ConfigurationSetting.get_setting_to_bool( 'RequireRegistrationApproval' ) %>
+                </div>
+                <div class="form_row">
+                    <label for="DefaultUserRole" class="fieldname">Default User Role:</label>
+                    <%= select_tag('DefaultUserRole', options_for_select(Role.find(:all).collect {|r| [ r.name ] }, selected = ConfigurationSetting.get_setting( 'DefaultUserRole' ))) %>
+                </div>
+                <div class="form_row">
+                    <label for="WebAnalyticsTrackingCode" class="fieldname">Web Analytics<br />Tracking Code:</label>
+                    <div class="fieldinfo p2">(if you have a javascript-based tracking code, enter it here to insert the script in page footers)</div>
+                    <%= text_area_tag('WebAnalyticsTrackingCode',ConfigurationSetting.get_setting( 'WebAnalyticsTrackingCode' ),:rows=>3, :class=>'styled') %>
+                </div>
+                <div class="form_row">
+                    <label for="UseSocialBookmarks" class="fieldname">Use Social Bookmarks:</label>
+                    <%= check_box_tag "UseSocialBookmarks", "true", ConfigurationSetting.get_setting_to_bool( 'UseSocialBookmarks' ) %>
+                </div>
+        </div>
+
+        <div class="content_item_bottom"></div>
+    </div> 
+
+    <div class="spacer h10"></div>
+
+    <div class="content_item">
+        <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Security Settings" } %>
+
+        <div class="content_item_body">
+            <div class="form_row">
+                <label for="Salt" class="fieldname">Salt:</label>
+                <%= text_field_tag "Salt", ConfigurationSetting.get_setting( 'Salt' ), :class => 'styled' %>
+                <span class="fieldinfo">(changing this will nullify all system hash-generated fields)</span>
+            </div>
+        </div>
+
+        <div class="content_item_bottom"></div>
+    </div>  
+
+    <div class="spacer h10"></div>
+
+    <div class="content_item">
+        <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Forum Settings" } %>
+
+        <div class="content_item_body">
+            <div class="form_row">
+                <label for="AllowAnonymousPosters" class="fieldname">Allow Anonymous Posters:</label>
+                <%= check_box_tag "AllowAnonymousPosters", "true", ConfigurationSetting.get_setting_to_bool( 'AllowAnonymousPosters' ) %>
+            </div>
+        </div>
+
+        <div class="content_item_bottom"></div>
+    </div>  
+
+    <div class="spacer h10"></div>
+
+    <div class="content_item">
+        <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Private Messaging" } %>
+
+        <div class="content_item_body">
+            <div class="form_row">
+                <label for="PrivateMessageRecipientLimit" class="fieldname">Recipient Limit:</label>
+                <%= text_field_tag "PrivateMessageRecipientLimit", ConfigurationSetting.get_setting( 'PrivateMessageRecipientLimit' ), :class => 'styled' %>
+                <span class="fieldinfo">(users can't mass mail more than this many recipients at once)</span>
+            </div>
+            <div class="form_row">
+                <label for="DailyPrivateMessageLimit" class="fieldname">Daily Message Limit:</label>
+                <%= text_field_tag "DailyPrivateMessageLimit", ConfigurationSetting.get_setting( 'DailyPrivateMessageLimit' ), :class => 'styled' %>
+                <span class="fieldinfo">(users can only send this many PMs per day)</span>
+            </div>
+            <div class="form_row">
+                <label for="EmailPrivateMessageNotices" class="fieldname">Notify By Email:</label>
+                <%= check_box_tag "EmailPrivateMessageNotices", "true", ConfigurationSetting.get_setting_to_bool( 'EmailPrivateMessageNotices' ) %>
+                <span class="fieldinfo">(send an email notice to a user when they receive a PM)</span>
+            </div>
+            <div class="form_row">
+                <label for="QuotePrivateMessageInEmail" class="fieldname">Quote Contents in Email:</label>
+                <%= check_box_tag "QuotePrivateMessageInEmail", "true", ConfigurationSetting.get_setting_to_bool( 'QuotePrivateMessageInEmail' ) %>
+                <span class="fieldinfo">(quote PM contents in the body of email notifications)</span>
+            </div>
+        </div>
+
+        <div class="content_item_bottom"></div>
+    </div>    
+
+    <div class="content_item">
+        <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Audit Logs" } %>
+
+        <div class="content_item_body">
+            <div class="form_row">
+                <label for="LogPageViews" class="fieldname">Log Page Views:</label>
+                <%= check_box_tag "LogPageViews", "true", ConfigurationSetting.get_setting_to_bool( 'LogPageViews' ) %>
+            </div>
+        </div>
+
+        <div class="content_item_bottom"></div>
+    </div>    
+
+    <div class="spacer h10"></div>
+    <%= render :partial => "/layouts/buttons/submit_button" %>
+<% end %>     

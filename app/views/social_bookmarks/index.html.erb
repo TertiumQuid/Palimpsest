@@ -1,0 +1,22 @@
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Social Bookmarklets" } %>
+
+    <div class="content_item_body">
+        <p>Social bookmarks help your vistors to share and publize this site through (1) links in the the page footer, and (2) relevent site content, such as <%= link_to "site news/blog posts", news_articles_path %>.</p>
+        <div class="right"><%= link_to "<input class='submit_small' value='+ Add New' style='margin:0;' />", new_social_bookmark_path %></div>
+        <div class="spacer h25"></div>
+    </div>
+    
+    <div class="content_item_body nicelist">
+        <ol>
+            <li class="title">
+              <div style="width:20%;" class="left">Name</div>
+              <div style="width:70%;" class="left">URL</div>
+              <div style="width:10%;" class="left">Active?</div>
+              <div class="spacer h15"></div>
+            </li>
+            <%= render :partial => "/social_bookmarks/row", :collection => @social_bookmarks %>
+        </ol>   
+    </div>
+    <div class="content_item_bottom"></div>
+</div> 

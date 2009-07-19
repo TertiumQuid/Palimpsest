@@ -1,0 +1,6 @@
+<div class="form_row">
+     <% fields_for "forum_topic[forum_post_attributes][]", @forum_topic.forum_posts.build do |forum_post_form| %>
+        <label for="body" class="fieldname left">Body:</label>
+        <%= forum_post_form.text_area :body, :rows => 6 %>
+    <% end %>
+</div>

@@ -1,0 +1,25 @@
+<% posts ||= ForumPost.get_recent_posts(10) -%>
+<div class="box">
+    <div class="box_title">Recent Forum Posts</div>
+        <div class="box_body">
+            <% unless posts.size == 0 %>
+                <ul>
+                    <% posts.each do |post| %>
+                        <li style="color:rgb(120,120,120);vertical-align:top;">
+                            <div style="width:40px;height:40px;margin-right:4px;border:1px solid rgb(150,150,150)" class="left"><%= image_tag (post.user ? post.user.avatar.url(:thumbnail) : "../avatars/blank_avatar_thumbnail.png") %></div>
+                            <div>
+                                <%= user_link post.user_id, post.username %>
+                                posted in
+                                <%= link_to h(post.forum_topic.title), forum_forum_topic_path(post.forum_topic.forum_id,post.forum_topic_id) %>
+                                <br /><%= time_ago_in_words(post.created_at) %> ago
+                                <div class="clearer"></div>
+                            </div>
+                        </li>
+                    <% end %>
+                </ul>
+            <% else %>
+                <div class="no_records">No posts have been made here yet.</div>
+            <% end %>
+        </div>
+    <div class="box_bottom"></div>
+</div>

@@ -1,0 +1,4 @@
+<% forums ||= Forum.find(:all) -%>
+<% object ||= 'forum_topic' -%>
+
+<%=  collection_select(object, 'forum_id', forums, 'id', 'name', {}, { :class => 'styled'}) %>

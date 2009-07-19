@@ -1,0 +1,25 @@
+<div class="content_item">
+    <div class="content_item_title">
+        <div class="right"><%= render :partial => "/forums/jump_to_forum", :locals =>  { :forum_id => @forum.id} %></div>
+        <%= forum_breadcrumbs %>
+        <div class="clearer">&nbsp;</div>
+    </div>
+    <div class="content_item_body">
+        <div class="content_item_metadata">
+            <div class="content">
+                <div class="left"><h2>Edit Post</h2></div>            
+                <div class="clearer">&nbsp;</div>												
+            </div>
+        </div>
+    </div>            
+    <div class="content_item_bottom"></div>
+</div>   
+
+<div class="content_item">
+    <div class="content_item_title"></div>
+    <div class="content_item_body">
+        <%= render :partial => "/forum_posts/form", :locals =>  { :url => forum_topic_forum_post_path(@forum_post.forum_topic_id,@forum_post.id) } %>
+    </div>  
+
+    <div class="content_item_bottom"></div>        
+</div>        

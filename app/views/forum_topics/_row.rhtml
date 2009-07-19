@@ -1,0 +1,18 @@
+<tr class="<%= cycle('alt', '') %> row">
+    <td class="topic_status">
+        <% if row.locked %>
+            <%= image_tag image_path("icons/lock.gif"), :alt => "Topic Locked - No more replies allowed" %>
+        <% else %>
+            <%= image_tag image_path("icons/note.gif"), :alt => "Topic" %>
+        <% end %>
+        <%= "[ Sticky ] <span style='font-weight:bold;font-size:13px;'>" if row.sticky? %>
+        <%= link_to h(row.title), forum_forum_topic_path(@forum.id,row.id), :page => params[:page] %>
+        <%= "</span>" if row.sticky? %>
+    </td>
+    <td><%= row.forum_posts_count %></td>
+    <td><%= row.views_count %></td>
+    <td>
+          <span style=";font-style:italic;font-weight:bold;"><%= distance_of_time_in_words(row.last_replied_at, Time.new) %> ago</span> by
+           <%= user_link row.recent_post.user_id, white_list(row.recent_post.username) %>
+    </td>
+</tr>

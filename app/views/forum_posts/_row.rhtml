@@ -1,0 +1,40 @@
+<% forum_topic = @forum_topic or row.forum_topic -%>
+<li class="<%= cycle('alt', '') %> row">
+    <div class="user_block">
+        <%= image_tag row.user_id.nil? ? User.new.avatar.url(:thumbnail) : row.user.avatar.url(:thumbnail), :class => "styled left outdent2" %>
+        <span class="outdent2 b"><%=user_status_link(row.user)%></span>
+        <% unless row.user_id.nil? %>
+            <div style="font-size:10px;">
+                <%= row.user.ip_address_display + "<br />" if show_user_ip? %>
+                <%= pluralize row.user.forum_posts_count, "post" %>
+            </div>
+            <div class="sub_info">joined: <%= row.user.created_at.strftime('%b %Y') %></div>
+        <% end %>
+    </div>
+    <div class="post_row">
+        <div id='<%="post_body_" + row.id.to_s %>' class="post_body"><%= white_list row.body %></div>
+        <% if row.has_been_edited? %>
+            <div style="font-size:10px;font-style:italic;margin:10px 0 0 5px;">-last edited <%=time_ago_in_words( row.updated_at ) %> ago</div>
+        <% end %>
+        <div class="post_row_footer">
+            <div class="left">posted <%= time_ago_in_words( row.created_at ) + " ago" %></div>
+
+            <div class="post_commands right">
+                <a href="#respond" onclick="setForumPostQuote('<%= time_ago_in_words(row.created_at)%>','<%=row.user_display_name%>','<%=row.id.to_s%>');">
+                    <img src='/images/icons/note_go.gif' />quote
+                </a>
+                <% if can_edit_post?(row) %>
+                      <%=link_to "<img src='/images/icons/note_edit.gif' />edit", edit_forum_topic_forum_post_path(row.forum_topic_id,row.id) %>
+
+                      <% unless row.is_only_post_in_topic? or forum_topic.id != row.forum_topic_id %>            
+                          <%= link_to('<img src="/images/icons/note_delete.gif" />delete', 
+                                  forum_topic_forum_post_path(row.forum_topic_id,row.id), 
+                                  :method => :delete, 
+                                  :confirm => "Delete this post?  Are you sure?") %>
+                      <% end %>
+                <% end %>
+            </div>
+            <div class="h10"></div>
+        </div>
+    </div>  
+</li>

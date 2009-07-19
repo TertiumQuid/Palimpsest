@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title><%= @title %></title>
+    
+    <%= javascript_include_tag "prototype" %>
+    <%= yield :tinymce -%>
+    <%= javascript_include_tag "scriptaculous" %> 
+    <%= javascript_include_tag "effects" %> 
+    <%= javascript_include_tag "controls" %>
+    <%= yield :forums_js -%>
+    <%= yield :private_messages_js -%>
+    <%= yield :boxover -%>
+    <%= yield :tinymce_init %> 
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="description" content="description"/>
+    <meta name="keywords" content="keywords"/> 
+    <meta name="author" content="author"/> 
+    
+    <%= stylesheet_link_tag "style"  %>
+    <%= yield :stylesheets %>
+</head>
+<body>
+    <div id="layout_wrapper">
+        <div id="layout_edgetop"></div>
+        
+        <div id="layout_container">
+            <div id="site_title">
+                <h1 class="left"><%= h(ConfigurationSetting.get_setting( 'SiteTitle' )) %></h1>
+                <h2 class="right"><%= h(ConfigurationSetting.get_setting( 'SiteSlogan' )) %></h2>
+
+                <div class="clearer">&nbsp;</div>
+            </div>
+            <div id="top_separator"></div>
+            <div id="navigation">
+                  <div id="tabs">
+                      <ul>
+                        <% if logged_in? %>
+                            <%= tab_link "Home", dashboard_users_path %>
+                        <% else %>
+                            <%= tab_link "Home", site_index_path %>
+                        <% end %>
+                        <%= tab_link_controller "Users", users_path, 'users', 'dashboard' if logged_in? %>
+                        <%= tab_link_controller "Messages", private_messages_path, 'private_messages' if logged_in? %>
+                        <%= tab_link_controller "Forums", forums_path, %w(forums forum_topics forum_posts) %>
+                        <%= tab_link "About", site_about_path %>
+                        <%= tab_link_controller "News", news_articles_path, 'news_articles' %>
+                        <%= tab_link "Contact", site_contact_path if not is_admin? %>
+                        <%= tab_link_controller "Admin", admin_configuration_path, 'admin social_bookmarks ip_bans' if is_admin? %>
+                        <% if logged_in? %>
+                            <%= tab_link "Logout", logout_path %>
+                        <% else %>
+                            <%= tab_link "Register", register_users_path if ConfigurationSetting.get_setting_to_bool( 'AllowRegistration' )  %>
+                        <% end %>
+                      </ul>
+                      <div class="clearer">&nbsp;</div>
+                  </div>
+            </div>
+          <div class="spacer h5"></div>
+          
+          <% if current_controller? nil, "admin social_bookmarks" %>
+            <div class="sub_tabs">
+                <%= sub_tab_link "Configuration", admin_configuration_path %> 
+                <%= sub_tab_link "Audit Logs", admin_audit_logs_path %> 
+                <%= sub_tab_link "Exception Logs", admin_exception_logs_path %> 
+                <%= sub_tab_link "IPs", admin_ip_addresses_path %> 
+                <%= sub_tab_link "File Storage", admin_file_storage_path %> 
+                <%= sub_tab_link "Bookmarklets", social_bookmarks_path, "social_bookmarks" %> 
+
+                <div class="clearer">&nbsp;</div>
+            </div>
+          <% end %>
+          <div id="main">
+                <div id="spinner" style="display:none;"><%=image_tag "spinner.gif"%><span class="updent5">&nbsp;Loading...</span></div>
+                <%= render :partial => "/layouts/flash_banner" %>
+
+                <div class="left" id="main_left">
+                    <div id="main_left_content"><%= yield %></div>
+                    <div class="clearer h20">&nbsp;</div>
+                    <%=footer_bookmarks if ConfigurationSetting.get_setting_to_bool( 'UseSocialBookmarks' )%>
+                </div>
+
+                <div class="right" id="main_right">
+                    <div id="sidebar">
+                        <%= render :partial => "/layouts/sideboxes/login_box" %>
+                        <%= yield :sidebar %>
+                    </div>
+                 </div>  
+
+                <div class="clearer">&nbsp;</div>
+          </div>
+          <div id="footer">
+                <div class="left">&#169; <%=Time.now.year %> Bellwether, Inc.</div>
+                <div class="right">Developed by Travis Dunn</div>
+                <div class="clearer">&nbsp;</div>
+          </div>          
+
+        </div>
+        <div id="layout_edgebottom"></div>
+    </div>
+    <%=ConfigurationSetting.get_setting( 'WebAnalyticsTrackingCode' )%>
+    <%= yield :inline_scripts %> 
+</body>
+</html>

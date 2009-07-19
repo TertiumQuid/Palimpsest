@@ -1,0 +1,41 @@
+<div class="content_item">
+    <div class="content_item_title">
+        <%= "<div class='right'>#{link_to("<input class='submit_small' value='+ New Forum' />", new_forum_path)}</div>" if has_permission? "Moderate Forums"%>
+        <%= forum_breadcrumbs %>
+        <span class="sub">
+            <%= pluralize ForumTopic.count(:all), "topic" -%>, 
+            <%= pluralize ForumPost.count(:all), "post" -%>,
+            <%= pluralize User.count(:all), "member" -%>
+        </span>
+        <div class="clearer">&nbsp;</div>
+    </div>
+
+    <div class="content_item_body nicelist">
+        <ol>
+        <% @forums.each do |forum| %>
+          <li class="<%= cycle('alt', '') %>">
+            <%= "<div class=\"right\">" + minor_edit_text_link(edit_forum_path(forum.id),"Edit Forum","",:get) + "</div>" if has_permission? "Moderate Forums" %>
+            <% if forum.recent_post %>
+                <div class="nicelist_item_right">
+                    Last Post <%= link_to h(forum.recent_post.subject), forum_forum_topic_path(forum.id,forum.recent_post.forum_topic_id) %>
+                    <br />
+                    <%= distance_of_time_in_words(forum.recent_post.created_at, Time.new) %> ago by 
+                    <%= user_link(forum.recent_post.user_id,forum.recent_post.user_display_name) %>                 
+                </div>
+            <% end %>
+            <div class="nicelist_item_title"><%= link_to h(forum.name), forum_path(forum.id)  %></div>
+            <div class="nicelist_item_info">
+                <div class="sub"><%= pluralize forum.forum_topics_count, "topic" %>, <%= pluralize forum.forum_posts_count, "post" %></div>
+                <%= h(forum.description) %>
+            </div>
+          </li>
+        <% end %>
+        </ol>
+        <div class="spacer h10"></div>
+    </div>
+    <div class="content_item_bottom"></div>
+</div> 
+
+<% content_for :sidebar do %>
+    <%= render :partial => "/layouts/sideboxes/recent_posts" %>
+<% end %>  

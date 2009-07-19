@@ -1,0 +1,29 @@
+<div id="<%=(table_container ||= "table_container")%>">
+    <% unless @topics.size == 0 %>
+        <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @topics } %>
+        <div class="content_item_body">
+            <table class="tabular" cellspacing="0">
+                <colgroup>
+                    <col width="30%" />
+                    <col width="10%" />
+                    <col width="10%" />
+                    <col width="50%" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Topics</th>
+                        <th>Posts</th>
+                        <th>Views</th>
+                        <th>Last Post</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%= render :partial => "/forum_topics/row", :collection => @topics %>
+                </tbody>
+            </table>
+        </div>
+        <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @topics } %>
+    <% else %>
+        <div class="content_item_body no_records">No topics have been added yet.</div>
+    <% end %>
+</div>

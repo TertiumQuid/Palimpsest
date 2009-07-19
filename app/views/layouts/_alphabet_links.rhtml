@@ -1,0 +1,41 @@
+<p style="margin:0 0 12px 0;">
+    <% if (make_remote ||= false) %>
+        <%= link_to "ALL", {:controller => params[:controller], 
+                            :action => params[:action], 
+                            :params => params.merge('page' => 1, 'letter' => '')}, 
+                            :style => "width:18px;", 
+                            :class => params[:letter].blank? ? "letter_current" : "letter" %>
+        <% @letters.each do |letter| %>
+            <% letter_class = (letter == params[:letter]) ? "letter_current" : "letter" %>
+            <%= link_to letter, {:controller => params[:controller], 
+                            :action => params[:action], 
+                            :params => params.merge('letter' => letter, 'page' => 1)}, 
+                            :class => letter_class %>
+        <% end %>
+    <% else %>
+        <%= alphabet_link "ALL", {
+                :url => {:params => params.merge('page' => 1, 'letter' => nil)},
+                :update => "table_container",
+                :before => "Element.show('spinner')",
+                :success => "Element.hide('spinner')",
+                :method => :get
+            }, 
+            {:href => url_for(:params => params.merge('page' => 1, 'letter' => '')),:style => "width:18px;",:class => params[:letter] ? "letter" : "letter_current"}%>
+        <% @letters.each do |letter| %>
+            <% letter_class = (letter == params[:letter]) ? "letter_current" : "letter" %>
+            <%
+            options = {
+                :url => {:controller => params[:controller], 
+                            :action => params[:action], 
+                            :params => params.merge('letter' => letter, 'page' => 1)},
+                :update => "table_container",
+                :before => "Element.show('spinner')",
+                :success => "Element.hide('spinner')",
+                :method => :get
+            }
+            html_options = { :href => url_for(:params => params.merge('letter' => letter)), :class => letter_class }
+            %>
+            <%=link_to_remote(letter,options,html_options)%>
+        <% end %>
+    <% end %>
+</p>

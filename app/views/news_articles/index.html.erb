@@ -1,0 +1,22 @@
+<% content_for :stylesheets do %>
+    <%= stylesheet_link_tag "calendar" %>
+    <%= stylesheet_link_tag "news" %>
+<% end %>
+<div class="news_header">Viewing Articles <span class="filter_header"><%=h(@filter_header)%></span></div>
+<% unless @news_articles.size == 0 %>
+    <%= render :partial => "/news_articles/row", :collection => @news_articles %>
+<% else %>
+    <div class="no_records">No news articles available for <%=@day.nil? ? @date.strftime("%B %Y") : @date.strftime("%B %d, %Y")%></div>
+<% end %>
+<%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @news_articles } %>
+<% if has_permission? "Publish News Articles" %>                    
+    <div class="right" style="margin-top:4px;"><%= link_to "<input class='submit_small' value='+ New Article' />", new_news_article_path %></div>
+    <div style="height:28px;"></div>
+<% end %>
+
+<% content_for :sidebar do %>
+    <%= render :partial => "/news_articles/calendar_box" %>
+    <%= render :partial => "/news_articles/tag_cloud_box" %>
+    <%= render :partial => "/news_articles/category_box" %>
+<% end %>  
+<%Rails.cache.fetch('NewsArticle.1' << id.to_s) { NewsArticle.find(1) }%>

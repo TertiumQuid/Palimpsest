@@ -1,0 +1,25 @@
+<li class="<%= cycle('alt', '') %> comment">
+    <div class="user_block left">
+        <%= image_tag row.user_id.nil? ? User.new.avatar.url(:thumbnail) : row.user.avatar.url(:thumbnail), :class => "styled left outdent2" %>
+        <span class="outdent2 b">
+            <%=post_author_link(row)%>
+            <%= "<span style='font-size:10px;font-weight:normal;'>#{row.ip_address}<br />" if show_user_ip? %>
+        </span>
+    </div>
+    <div class="post_row">
+        <div class="post_body"><%= white_list row.body %></div>
+        <div class="post_row_footer">
+            <div class="left">posted <%= time_ago_in_words( row.created_at ) + " ago" %></div>
+			
+			<% if in_edit_mode and can_edit_comment?(row) %>
+				<div class="post_commands right updent5">
+				  <div class="h10"></div>
+				  <%= link_to_approve_comment(row) unless row.is_approved %>
+				  <%= link_to_delete_comment(row) %>
+				</div>
+			<% end %>
+		
+            <div class="h15"></div>
+        </div>
+    </div>
+</li>

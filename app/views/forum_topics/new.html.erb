@@ -1,0 +1,28 @@
+<div class="content_item">
+    <div class="content_item_title">
+        <div class="right"><%= render :partial => "/forums/jump_to_forum", :locals =>  { :forum_id => @forum.id} %></div>
+        <%= forum_breadcrumbs %>             
+        <div class="clearer">&nbsp;</div>
+    </div>
+    <div class="content_item_body">
+        <h2>Create a new Topic</h2>
+        <p />
+        <% form_for :forum_topic, :url => forum_forum_topics_path do |form| %>
+            <%= error_messages_for "forum_topic" %>
+            <%= negative_captcha %>
+            <%= render :partial => "/layouts/fields/text_field_row", :locals => { :form => form, :fieldname => :title } %>
+            <% if belongs_to_role?("Moderator") or belongs_to_role?("Staff") or belongs_to_role?("Administrator") %>
+                <%= render :partial => "/layouts/fields/checkbox_field_row", :locals => { :form => form, :fieldname => "locked" } %>
+                <%= render :partial => "/layouts/fields/checkbox_field_row", :locals => { :form => form, :fieldname => "sticky" } %>
+            <% end %>
+            <% use_tinymce -%>
+            <%= render :partial => "/layouts/fields/text_area_row", :locals => { :form => form, :fieldname => :body, :rows => 20 } %>
+            <div class="form_row">
+                <%= render :partial => "/layouts/buttons/submit_button" %>
+                <%= render :partial => "/layouts/buttons/cancel_button" %>
+            </div>
+            <div class="spacer h15"></div>
+        <% end %>
+    </div>            
+    <div class="content_item_bottom"></div>
+</div>            

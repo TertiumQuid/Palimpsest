@@ -1,0 +1,6 @@
+<li class="<%= cycle('alt', '') %> row">
+    <div style="width:20%;" class="left"><%=image_tag(row.icon.url) << " " << (link_to white_list(row.name), edit_social_bookmark_path(row.id))%></div>
+    <div style="width:70%;" class="left"><%=row.url%></div>
+    <div style="width:10%;" class="left"><%=row.active%></div>
+    <div class="spacer h20"></div>
+</li>

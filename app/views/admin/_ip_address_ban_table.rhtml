@@ -1,0 +1,14 @@
+<div id="ip_ban_container">
+    <% unless @ip_bans.size == 0 %>
+        <ul>
+            <% @ip_bans.each do |ip| %>
+                <li>
+                    <%= link_to "[ allow ]", admin_ip_addresses_path(:unban=>ip.id), :class => "minor_edit_text_link", :method => :post  %>
+                    <%= "#{ip.ip_address} @ #{time_ago_in_words(ip.created_at)} ago"%>
+                </li>
+            <% end %>
+        </ul>
+    <% else %>
+        <div class="no_records">No IPs found.</div>
+    <% end %>
+</div>

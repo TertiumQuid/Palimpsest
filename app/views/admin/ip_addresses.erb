@@ -1,0 +1,89 @@
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => "All IP Addresses" } %>
+
+    <div class="content_item_body">
+        <table>
+            <tr>
+                <td nowrap colspan="2">
+                    <label for="query" style="margin-right:25px;" class="fieldname">Username or IP:</label>
+                    <%= text_field_tag "query", params[:query], :class => 'styled', :value =>"" %>
+                </td>
+                <td nowrap="true">
+                    <label for="range" class="fieldname" style="margin-right:40px;">From the Last:</label>
+                    <%=select_tag 'range', 
+                        options_for_select(["","day","week","30 days","90 days","year"], params[:range]),
+                        :class => 'styled' %>
+                </td>
+            </tr>
+        </table>      
+        <%= render :partial => "/admin/ip_address_table" %>
+    </div>
+    
+    <div class="content_item_bottom"></div> 
+</div>     
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Multi-User IPs" } %>
+
+    <div class="content_item_body">
+        <% AuditLog.find(:all,:order => 'audit_logs.created_at DESC',:group => 'ip_address,user_id HAVING count(user_id) > 1 ').each do |ip| %>
+            <div style="width:135px;float:left;">
+                <%unless @last_ip.to_s == ip.ip_address %>
+                    <%= link_to "[ ban ]", admin_ip_addresses_path(:ban=>ip.ip_address), :class => "minor_edit_text_link", :method => :post  %>
+                    <%=ip.ip_address %>
+                <% end %>
+                <% @last_ip = ip.ip_address %>
+                &nbsp;
+            </div>
+            <div><%=" #{user_link(ip.user_id,ip.username)}, last seen #{time_ago_in_words(AuditLog.user_last_seen(ip.user_id))} ago" %></div>
+            <div class="spacer h5"></div>
+        <% end %>
+    </div>
+    
+    <div class="content_item_bottom"></div> 
+</div> 
+
+<% content_for :sidebar do %>
+    <div class="box">
+        <div class="box_title">Banned IPs:</div>
+        <% unless @ip_bans.size == 0 %>
+            <div class="box_body">
+                <label for="ip_ban_query" class="fieldname">IP Address:</label>
+                <%= text_field_tag "ip_ban_query", params[:ip_ban_query], :class => 'styled', :value => "" %>
+                <div class="spacer h10"></div>
+            </div>
+            <div class="box_body">
+                <%= render :partial => "/admin/ip_address_ban_table" %>
+            </div>
+        <% else %>
+            <div class="box_body">
+                <div class="no_records">No IP Address banned.</div>
+            </div>
+        <% end %>
+        <div class="box_bottom"></div>
+    </div> 
+<% end %> 
+
+
+<% content_for :inline_scripts do %>
+    <%= observe_field 'query',  
+             :frequency => 1,
+             :update => 'table_container',
+             :before => "Element.show('spinner')",
+             :success => "Element.hide('spinner')",
+             :url => {:action => :ip_addresses },
+             :with => 'query' %>
+    <%= observe_field 'ip_ban_query',  
+             :frequency => 3,
+             :update => 'ip_ban_container',
+             :before => "Element.show('spinner')",
+             :success => "Element.hide('spinner')",
+             :url => {:action => :ip_addresses },
+             :with => 'ip_ban_query' %>
+    <%= observe_field 'range',  
+             :frequency => 2,
+             :update => 'table_container',
+             :before => "Element.show('spinner')",
+             :success => "Element.hide('spinner')",
+             :url => {:action => :ip_addresses },
+             :with => 'range' %>
+<% end %>

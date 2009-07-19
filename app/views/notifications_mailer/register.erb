@@ -1,0 +1,22 @@
+<p>Greetings <%= @user.display_name %>,</p>
+
+<p>You have successfully registered an account with <%= @site_title %>. This request was made from the following ip: <%=@ip_address%>. </p>
+<p>
+<% if @require_registration_approval -%>
+Before you can login to the system, your account must be approved by our staff. As soon as your request is reviewed, you'll receive another email at this address notifying you of approval/rejection; once approved, you can login at any time.
+<% else -%>
+You may login to the system at any time.
+<% end -%>
+</p>
+<p>Your login information is:</p>
+<p>
+Username: <%= @user.username %><br />
+Password: <%= @user.password %>
+</p>
+<p>Login at: <%= link_to @url, @url %></p>
+<p>Vist our forums at: <%= link_to forums_url, forums_url %></p>
+<p>Contact us at <%= mail_to @site_email, @site_email %></p>
+
+<p>Thanks for your interest and support! </p>
+
+<p>--The <%= @site_title %> team</p>

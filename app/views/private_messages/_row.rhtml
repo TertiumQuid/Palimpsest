@@ -1,0 +1,9 @@
+<tr class="<%= cycle('alt', '') %> row">
+    <td <%="class='bold'" if viewing_received and row.has_unread_messages?(session[:user_id])%>>
+        <%=conversation_status_icon(row,session[:user_id],viewing_received ||= false) %>
+        <%=white_list link_to(row.subject, private_message_path(row.id))%> (<%=row.conversaion_count(session[:user_id])%>)
+    </td>
+    <td><%=pm_user_display(row) %></td>
+    <td><%=row.created_at.strftime('%b %d, %I:%M %p')%></td>
+    <td><%= minor_delete_text_link(private_message_path(row.id),"Conversation","right") if viewing_received %></td>
+</tr>

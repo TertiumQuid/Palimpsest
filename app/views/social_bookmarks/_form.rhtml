@@ -1,0 +1,21 @@
+<% form_for @social_bookmark, :html => { :multipart => true }  do |form| %>
+    <%= error_messages_for "social_bookmark" %>
+    <%= render :partial => "/layouts/fields/text_field_row", :locals => { :form => form, :fieldname => :name } %>
+    <%= render :partial => "/layouts/fields/checkbox_field_row", :locals => { :form => form, :fieldname => "active" } %>
+    <%= render :partial => "/layouts/fields/text_field_row", 
+               :locals => { :form => form, 
+                            :fieldname => :url, 
+                            :info => "e.g. http://del.icio.us/post?url=<span style='font-weight:bold;font-style:normal;'>{{T}}</span>&amp;title=<span style='font-weight:bold;font-style:normal;'>{{U}} </span>" } %>
+    <div class="form_row">
+        <label for="icon" class="fieldname">Icon:</label>
+        <%= image_tag @social_bookmark.icon.url if @social_bookmark.icon.exists? %>
+        <%= form.file_field "icon", :class => "styled" %>
+    </div>
+    <div class="spacer h15 hr"></div>
+    <div class="form_row">
+        <%= render :partial => "/layouts/buttons/submit_button" %>
+        <%= render :partial => "/layouts/buttons/delete_button", :locals => { :url => social_bookmark_path(@social_bookmark.id) } unless @social_bookmark.new_record? %>
+        <%= render :partial => "/layouts/buttons/cancel_button" %>
+    </div>
+    <div class="spacer h15"></div>    
+<% end %>

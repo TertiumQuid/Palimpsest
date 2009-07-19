@@ -1,0 +1,7 @@
+<div id="<%=(table_container ||= "table_container")%>">
+    <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @forum_topic_posts } -%>
+    <div class="content_item_body nicelist">
+        <ol><%= render :partial => "/forum_posts/row", :collection => @forum_topic_posts %></ol>
+    </div>
+    <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @forum_topic_posts } -%>
+</div>

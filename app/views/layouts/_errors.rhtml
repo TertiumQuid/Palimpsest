@@ -1,0 +1,11 @@
+<% errors or @errors or [] %>
+<% unless errors.blank? %>
+    <div class="errorExplanation" id="errorExplanation">
+        <h2><%=errors.size %> errors prohibited this <%= object ||= "record" %> from being <%= verb ||= "saved" %></h2><p>There were problems with the following fields:</p>
+        <ul>
+          <% for error in errors %>
+                <li><%= h(error) %></li>
+          <% end %>
+        </ul> 
+    </div>
+<% end %>

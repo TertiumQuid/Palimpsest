@@ -1,0 +1,5 @@
+<% field_title = nil if not defined?(field_title) -%>
+<div class="form_row">
+    <label for="<%= fieldname %>" class="fieldname"><%= label ||= fieldname.humanize -%>:</label>
+    <%= form.check_box fieldname, :class => css_class ||= "" -%>
+</div>

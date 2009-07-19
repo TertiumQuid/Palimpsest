@@ -1,0 +1,12 @@
+<% category_options ||= NewsArticleCategory.options_for_select %>
+<div class="form_row">
+    <div class="spacer h20">&nbsp;</div>
+    <label for="news_article_category_id" class="fieldname">Category:</label>
+    <%= form.select :news_article_category_id, category_options, 
+                    {:class => 'styled', 
+                    :include_blank => true},
+                    { :onchange => "$('news_article_category_title').value='';"} if category_options.size > 0 %>
+    <%= form.text_field :new_category, :class => "styled", :onchange => "$('news_article_news_article_category_id').selectedIndex=0;" %>
+    <span class='fieldinfo '>(select a category or create a new one)</span>
+    <div class="spacer h10">&nbsp;</div>
+</div>

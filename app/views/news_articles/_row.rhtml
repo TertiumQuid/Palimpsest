@@ -1,0 +1,21 @@
+<div class="content_item">
+    <div class="content_item_title">
+        <%= wall_calendar_page(row) %>
+
+        <%=author_link(row)%>
+        <%= link_to h(row.title), news_article_path(row.id), :class => "article_title" %>
+        <%= category_link(row, "right") %>
+        <div class="clearer">&nbsp;</div>
+    </div>
+
+    <div class="content_item_body">
+        <%= article_description(row) %>	
+        <div class="news_article_footer">
+            <%= footer_comments_for(row) %>
+            <%= footer_tags_for(row) %>
+        </div>
+    </div>
+
+    <div class="content_item_bottom"></div>
+</div>
+<div class="h10"></div>

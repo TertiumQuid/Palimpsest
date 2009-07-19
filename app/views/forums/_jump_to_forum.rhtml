@@ -1,0 +1,5 @@
+<span style="font-size:11px;padding-right:3px;">Jump to forum:</span><%= select_tag('forum_id', 
+        options_for_select(Forum.find(:all).collect {|s| [ h(s.name), s.id ] }, 
+        selected = (forum_id ||= params[:forum_id])), 
+        :onchange =>"window.location='/forums/' + this.options[this.selectedIndex].value;", 
+        :class => 'styled', :style => "margin-right:12px;") %>

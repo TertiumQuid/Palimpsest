@@ -1,0 +1,13 @@
+<p>Hi <%= @recipient.display_name %>,</p>
+
+<p><%= @private_message.user.display_name %> sent you a private message at <%= @site_title %>. </p>
+<% if @quote_pm -%>
+<p>
+    <strong><%= @private_message.body -%></strong>
+</p>
+<p>Login to reply at: <%= link_to @url, @url %></p>
+<% else %>
+<p>Login to view this message and reply at: <%= link_to @url, @url %></p>
+<% end %>
+
+<p>--The <%= @site_title %> Mailer</p>

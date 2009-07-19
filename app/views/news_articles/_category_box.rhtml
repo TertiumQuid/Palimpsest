@@ -1,0 +1,14 @@
+<% article_categories ||= NewsArticleCategory.all_cached %>
+<% if article_categories.size > 0 %> 
+<div class="box">
+    <div class="box_title">Categories</div>
+    <div class="box_body">
+        <ul class="news_article_category_list">
+            <% article_categories.each do |category| %>
+                <li><%=link_to(h(category.title) << " (#{category.news_articles_count})", news_category_path(h(category.title)))%></li>
+            <% end %>
+        </ul>
+    </div>
+    <div class="box_bottom"></div>
+</div>
+<% end %>

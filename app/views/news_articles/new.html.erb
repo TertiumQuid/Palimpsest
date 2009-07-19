@@ -1,0 +1,13 @@
+<% content_for :stylesheets do %>
+    <%= stylesheet_link_tag "calendar" %>
+    <%= stylesheet_link_tag "news" %>
+<% end %>
+
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Publish News Article" } %>
+
+    <div class="content_item_body">
+        <%= render :partial => "/news_articles/form", :locals => { :method => :post } %>
+    </div>          
+    <div class="content_item_bottom"></div>
+</div> 

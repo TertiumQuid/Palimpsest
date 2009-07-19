@@ -1,0 +1,32 @@
+<div id="<%=(table_container ||= "table_container")%>">
+    <table class="tabular" cellspacing="0">
+        <colgroup>
+            <col width="20%" />
+            <col width="30%" />
+            <col width="25%" />
+            <col width="25%" />
+        </colgroup>
+        <thead>
+              <tr>
+                  <%=sorted_th_link "IP Address","ip_address","sort",true %>
+                  <%=sorted_th_link "User","username" %>
+                  <th>Last Seen</th>
+                  <th>First Visit</th>
+              </tr>
+        </thead>
+        <tbody>
+              <% @ips.each do |ip| %>
+              <tr class="<%= cycle('alt', '') %> row">
+                  <td>
+                      <%= link_to "[ ban ]", admin_ip_addresses_path(:ban=>ip.ip_address), :class => "minor_edit_text_link", :method => :post  %>
+                      <%=ip.ip_address %>
+                  </td>
+                  <td><%=user_link(ip.user_id,ip.username)%></td>
+                  <td><%="#{time_ago_in_words(AuditLog.ip_address_last_seen(ip.ip_address))} ago" %></td>
+                  <td><%="#{time_ago_in_words(AuditLog.ip_address_first_seen(ip.ip_address))} ago" %></td>
+              </tr>
+              <% end %>
+        </tbody>
+    </table>
+    <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @ips } %>
+</div>

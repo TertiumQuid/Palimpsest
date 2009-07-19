@@ -1,0 +1,26 @@
+<div id="add_comment" class="content_item">
+    <%= "<div class='content_item_title'><h2>Leave a Comment</h2></div>" if @comment.new_record? %>
+    <div class="content_item_body">
+        <div id="form_errors"><%= error_messages_for "comment" %></div>
+		<%= negative_captcha %>		
+        <% remote_form_for @comment,
+                    :url => comments_path, 
+                    :loading => "Element.show('spinner')",
+                    :complete => "Element.hide('spinner')",
+                    :html => { :id => "comment_form" } do |form| %>
+			<%= hidden_field_tag :parent_type, parent.class.name %>
+			<%= hidden_field_tag :parent_id, parent.id %>
+            <% unless logged_in? %>
+                <%= render :partial => "/layouts/fields/text_field_row", :locals => { :form => form, :fieldname => :author } %>
+                <%= render :partial => "/layouts/fields/text_field_row", :locals => { :form => form, :fieldname => :email } %>
+                <%= render :partial => "/layouts/fields/text_field_row", :locals => { :form => form, :fieldname => :website_url, :label => "Website" } %>
+            <% end %>
+            <%= render :partial => "/layouts/fields/text_area_row", :locals => { :form => form, :fieldname => :body, :rows => 10 } %>
+            <div class="form_row">
+                <%= render :partial => "/layouts/buttons/submit_button" %>
+            </div>
+            <div class="spacer h15"></div>
+        <% end %>
+    </div>  
+    <div class="content_item_bottom"></div>
+</div>

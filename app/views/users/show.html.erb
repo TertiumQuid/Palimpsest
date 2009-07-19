@@ -1,0 +1,36 @@
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => h(@user.display_name) } %>
+
+    <div class="content_item_body">
+        <%= "<div style='margin:0 0 0 6px;padding:2px 0 2px 5px;background-color:rgb(255,140,0);color:rgb(255,255,255);font-weight:bold;'>User Account is " + @user.account_status.name + "</div>" if not @user.account_status.name == "Active" %>
+        <table border="0" cellpadding="0" cellspacing="6" width="100%" style="<%="filter:alpha(opacity=65);opacity:0.65;" if not @user.account_status.active %>">
+            <tr>
+                <td style="width:100px;">
+                    <%= image_tag @user.avatar.url(:normal), :class => "styled" %>
+                </td>
+                <td>                  
+                    <%=link_to image_tag("icons/note_edit.gif") + "edit", edit_user_path(@user.id), :class => "right tb6" if can_edit_user?(@user) %>
+                    <%=private_messages_send_link(@user.id,@user.username,"outdent2")%>
+
+                    <span style="top:2px;position:relative;"><%= render :partial => "/users/session_status_icon", :locals =>  { :status => @user.session_status } %></span>
+                    
+                    <%= h(@user.username) %>
+                    <br /><br />
+                    Member for <%= time_ago_in_words @user.created_at %><br />
+                    <%= "Last seen " + time_ago_in_words(@user.session.updated_at) + " ago" if @user.session %><br />
+                    <%= link_to("Forum Posts: " + @user.forum_posts_count.to_s, user_forum_posts_path(@user.id)) if @user.forum_posts_count > 0 %>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <%= "<p>Registered IP Address: <strong>" + @user.ip_address_display + "</strong></p>" if show_user_ip? %>
+                    <p>Email: <a href='mailto:<%= @user.email %>'><%=@user.email%></a></p>
+                    <%= "Website: " + link_to(h(@user.website_url), h(@user.website_url)) unless @user.website_url.blank?%>
+                </td>
+            </tr> 
+            <tr><td colspan="2"><%= white_list @user.personal_text %></td></tr>
+            <tr><td colspan="2"><%= "<p>" + white_list(@user.signature) + "</p>" unless @user.signature.blank? %></td></tr>
+        </table>
+    </div>
+    <div class="content_item_bottom"></div>
+</div>

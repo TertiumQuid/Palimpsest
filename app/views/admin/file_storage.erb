@@ -1,0 +1,28 @@
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => "System File Storage" } %>
+
+    <div class="content_item_body">
+        <p>
+            <% form_tag admin_file_storage_path, :method => :post, :id => "avatars_form" do %>
+                <%="<strong>"+number_to_human_size(Dir.glob("public/avatars/*").join('+').size)+"</strong>"%> of avatar files stored in "/public/avatars/"
+            
+                <%= hidden_field_tag "purge_avatars", "1"  %>
+                <%=link_to("[ PURGE AVATAR FILES ]","#",
+                            :class=>"minor_edit_text_link",
+                            :onclick=>"$('avatars_form').submit();")%>
+            <% end %>            
+            
+        </p>
+        <p>
+            <% form_tag admin_file_storage_path, :method => :post, :id => "attachments_form" do %>
+                <%="<strong>"+number_to_human_size(Dir.glob("protected/attachments/*").join('+').size)+"</strong>"%> of attachment files stored in "/protected/attachments/"
+            
+                <%= hidden_field_tag "purge_attachments", "1"  %>
+                <%=link_to("[ PURGE ATTACHMENT FILES ]","#",
+                            :class=>"minor_edit_text_link",
+                            :onclick=>"$('attachments_form').submit();")%>
+            <% end %> </p>
+    </div>
+    
+    <div class="content_item_bottom"></div> 
+</div>     

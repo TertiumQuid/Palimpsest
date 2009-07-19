@@ -1,0 +1,18 @@
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Create New User" } %>
+
+    <div class="content_item_body">
+        <% form_for :user, :url => users_path do |form| %>
+            <%= error_messages_for "user" %>
+            <%= render :partial => "/layouts/fields/text_field_row", :locals => { :form => form, :fieldname => :username } %>
+            <%= render :partial => "/layouts/fields/text_field_row", :locals => { :form => form, :fieldname => :email } %>
+            <%= render :partial => "/layouts/fields/password_field_row", :locals => { :form => form, :field => "password" } %>
+            <%= render :partial => "/layouts/fields/password_field_row", :locals => { :form => form, :field => "password_confirmation", :field_title => "Confirm Password" } %>
+            <%= render :partial => "/layouts/fields/time_zone_select_row", :locals => { :form => form, :time_zone_for => "user" } %>
+            <%= render :partial => "/layouts/buttons/submit_button" %>
+            <div class="spacer h25"></div>
+        <% end %>
+    </div>
+
+    <div class="content_item_bottom"></div>
+</div> 

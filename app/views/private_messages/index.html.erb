@@ -1,0 +1,36 @@
+<div class="content_item">
+    <div class="content_item_title">
+        <div class="right"><%= link_to "<input class='submit_small' value='+ New Msg' style='margin:0;' />", new_private_message_path %></div>
+        <h2 class="left">
+                <label for="subject" class="fieldname outdent5" style="padding-right:10px;">Messages: </label>
+                <%= select( 
+                    "pms", 
+                    "mailbox", 
+                    { "Viewing INBOX" => "inbox", "Viewing SENT MAIL" => "sent"} )%>
+        </h2> 
+        <span class="sub">
+            <% if is_viewing_received_box? %>
+                <%=pluralize(current_user.unread_private_message_receipts.all.size, "unread message")%>,
+                <%=current_user.private_message_recipients.all.size.to_s + " total" %>
+            <% else %>
+                <%=pluralize(current_user.sent_private_messages.all.size, "sent message")%>
+            <% end %>
+        </span> 
+        <div class="clearer">&nbsp;</div>
+    </div>   
+    
+    <%= render :partial => "/private_messages/private_message_table" %>
+
+    <div class="content_item_bottom"></div>      
+</div> 
+
+<% content_for :inline_scripts do %>
+    <%= observe_field 'pms_mailbox',  
+             :frequency => 1,
+             :update => 'table_container',
+             :before => "Element.show('spinner')",
+             :success => "Element.hide('spinner')",
+             :url => {:action => :index }, 
+             :method=>:get,
+             :with => 'mailbox' %>
+<% end %>

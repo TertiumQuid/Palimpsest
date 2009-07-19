@@ -1,0 +1,30 @@
+<div class="content_item">
+    <div class="content_item_title"> 
+        <% if has_permission?("Create Users") %>
+            <div class="right"><%= link_to "<input class='submit_small' value='+ New User' />", new_user_path %></div>
+        <% end %> 
+        <h2 class="left">User Directory</h2>  
+        <div class="h20">&nbsp;</div>
+    </div>
+
+    <div class="content_item_body">
+        <% if has_permission?("Edit Users") %>
+            <%= "<p>Show Users By Status: #{account_status_select}</p>" %>
+        <% end %>
+    </div>
+    
+    <%= render :partial => "/users/user_table" %>
+
+    <div class="content_item_bottom"></div>  
+</div> 
+
+<% content_for :inline_scripts do %>
+    <%= observe_field 'account_status_id',  
+             :frequency => 1,
+             :update => 'table_container',
+             :before => "Element.show('spinner')",
+             :success => "Element.hide('spinner')",
+             :url => {:action => :index }, 
+             :method=>:get,
+             :with => 'account_status_id' %>
+<% end %>

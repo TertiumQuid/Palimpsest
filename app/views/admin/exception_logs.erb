@@ -1,0 +1,65 @@
+<% use_boxover %>  
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Exception Logs" } %>
+
+    <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @exception_logs } %>
+
+    <div class="content_item_body nicelist">
+        <% unless @exception_logs.size == 0 %>
+        <ol>
+            <li class="<%= cycle('alt', '') %> title">
+              <div style="width:30%;" class="left">Type / Action</div>
+              <div style="width:25%;" class="left">User</div>
+              <div style="width:20%;" class="left">Date</div>
+              <div style="width:20%;" class="left">Action</div>
+              <div style="width:5%;" class="left">Details</div>
+              <div class="spacer h15"></div>
+            </li>
+            <% @exception_logs.each do |log| %>
+                <li class="<%= cycle('alt', '') %> row clear">
+                    <div style="width:30%;" class="left"><%= log.exception_type %></div>
+                    <div style="width:25%;" class="left"><%=   white_list(log.username.blank? ? "N/A" : user_link(log.user_id,log.username)) + "<br /><em>" + log.ip_address + "</em>" %>&nbsp;</div>
+                    <div style="width:20%;" class="left"><%= time_ago_in_words(log.created_at) + " ago<br />" + log.created_at.strftime("%b %d %Y, at %I:%M %p") %></div>
+                    <div style="width:20%;" class="left"><%= "<span class='info' " + boxover("Params", white_list(log.params.gsub(",","<br />"))) + ">" %><%= log.controller.blank? ? "N/A" : log.controller + "+" + log.action + "</span>" %></div>
+                    <div style="width:5%;" class="left"><%= "<span " + boxover("Exception Details", "<div style='font-size:11px;padding:3px;'>" + h(log.message) + "</div>") + "><span class='info'>view</span></span>" %></div>
+                    <div class="spacer h30"></div>
+                </li>
+            <% end %>
+        </ol>
+        <% else %>
+            <div class="no_records">No exceptions found.</div>
+        <% end %>
+        <div class="h10"></div>
+    </div>
+
+    <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @exception_logs } %>
+    <div class="content_item_bottom"></div>   
+</div> 
+
+
+<% content_for :sidebar do %>
+    <%= render :partial => "/admin/log_filter_box" %>
+    <div class="box">
+        <div class="box_title">Users by Errors:</div>
+        <% form_tag admin_exception_logs_path, :method => :post, :id => "exception_users_filter_form" do -%>
+            <div class="box_body p10">
+              <label for="account_status_id" class="fieldname p2" style="margin-right:8px;">Filter by status:</label>
+              <%= account_status_select(nil,:onchange =>"$('exception_users_filter_form').submit()") %>
+            </div>
+        <% end %>
+        <% unless @exception_users.size == 0 %>
+            <div class="box_body">
+                <ul>
+                    <% @exception_users.each do |user| %>
+                        <li><%= user_link(user.id, user.display_name) + " has " + pluralize(user.exception_logs_count, "error")%></li>
+                    <% end %>
+                </ul>
+            </div>
+        <% else %>
+            <div class="box_body">
+                <div class="no_records">No user error logs found.</div>
+            </div>
+        <% end %>
+        <div class="box_bottom"></div>
+    </div>  
+<% end %>  

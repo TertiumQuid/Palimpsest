@@ -1,0 +1,25 @@
+<div class="box">
+    <div class="box_title">Calendar Menu</div>
+    <div class="box_body p10">
+        <% news_articles = NewsArticle.with_month(@year,@month) %>
+        <%= calendar(:year => @year, 
+                    :month => @month, 
+                    :previous_month_text => previous_month_link(@date), 
+                    :next_month_text => next_month_link(@date), 
+                    :month_name_text => month_and_year_select(@date)) do |d|
+            if (NewsArticle.article_count_by_date(news_articles,Time.gm(@year,@month,d.mday).strftime("%m/%d/%Y"))) > 0
+                [link_to(d.mday, news_archives_path(d.year,d.month,d.mday)), {:class => "specialDay"}]
+            else
+                [d.mday, {:class => "day"}]
+            end
+        end %>
+    </div>
+    <div class="box_body">
+        <ul>
+        <% for aggregate in NewsArticle.find_distinct_month_year_list %>
+            <li class="year_month_link"><%=year_month_link(aggregate.created_at)%></li>
+        <% end %>
+        </ul>
+    </div>
+    <div class="box_bottom"></div>
+</div>

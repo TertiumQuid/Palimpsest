@@ -1,0 +1,5 @@
+<p>Greetings <%= @user.display_name %>,</p>
+
+<p>We're sorry to inform you that your registration request at <%= @site_title %> has been denied. If you have any questions, you may contact us at <%= mail_to @site_email, @site_email %>.</p>
+
+<p>--The <%= @site_title %> team</p>

@@ -1,0 +1,13 @@
+<div class="content_item">
+    <div class="content_item_title">
+        <div class="right"><%= render :partial => "/forums/jump_to_forum", :locals =>  { :forum_id => @forum.id} %></div>
+        <h2 class="left"><%= (link_to "Forums", forums_path) %></h2>                
+        <div class="clearer">&nbsp;</div>
+    </div>
+    <div class="content_item_body">
+        <h2>Create a new Forum</h2>
+        <p />
+        <%= render :partial => "/forums/form" %>
+    </div>            
+    <div class="content_item_bottom"></div>
+</div>

@@ -1,0 +1,52 @@
+<% content_for :forums_js do %><%= javascript_include_tag "forums" %><% end %>
+
+<div class="content_item">
+    <div class="content_item_title">
+        <div class="right"><%= render :partial => "/forums/jump_to_forum", :locals =>  { :forum_id => @forum.id} %></div>
+        <%= forum_breadcrumbs %>
+        <span class="sub clr160160160">
+            <%= pluralize @forum_topic.forum_posts_count, "post" %>, 
+            <%= pluralize @forum_topic.views_count, "view" %>
+        </span>
+        <div class="clearer">&nbsp;</div>
+    </div>  
+
+    <div class="content_item_body">
+        <div class="content_item_metadata">
+            <div class="content">
+                <div class="left">
+                    <h2>"<%= h(@forum_topic.title) %>"</h2>
+                    <span class="clr160160160" style="padding-left:8px;">
+                      <% if @forum_topic.locked %><%= image_tag image_path("icons/lock.gif"), :alt => "Topic Locked - No more replies allowed" %><% end %>
+                        <%= "created " + time_ago_in_words(@forum_topic.created_at) + " ago" %>
+                    </span>
+                </div>                        
+                <div class="right">
+                    <a href="#post_reply" class="minor_edit_text_link">Leave a Reply</a> | <%= link_to "Back to Forum", forum_path(@forum.id), :class => "minor_edit_text_link" %>
+                    <% if belongs_to_role?("Moderator") or belongs_to_role?("Administrator") %>&nbsp;|
+                      <%= minor_edit_text_link(edit_forum_forum_topic_path, "Edit Topic","", :get) %>
+                    <% end %>
+                </div>
+                <div class="clearer">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+    <div class="content_item_bottom"></div>
+</div>
+
+<div class="content_item">
+    <div class="content_item_title"></div>
+    <%= render :partial => "/forum_posts/table" %>
+    <div class="content_item_bottom"></div>        
+</div>
+
+<% unless @forum_topic.locked or not can_create_post? %>
+    <div class="content_item" id="post_reply">
+        <div class="content_item_title"><h2>Leave a Reply</h2></div>
+        <div class="content_item_body">
+            <p>Enter your reply below</p>
+            <%= render :partial => "/forum_posts/form" %>
+        </div>  
+        <div class="content_item_bottom"></div>
+    </div>   
+<% end %>

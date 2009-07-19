@@ -1,0 +1,12 @@
+<p>Greetings <%= @user.display_name %>,</p>
+
+<p>We're happy to inform you that your registration request at <%= @site_title %> has been approved! Just go to <%= link_to @url, @url %> and login:</p>
+
+YOUR USERNAME IS: <%= @user.username %><br />
+YOUR PASSWORD IS: <%= @user.password %>
+
+<p>If you have any questions, you can contact us at <%= mail_to @site_email, @site_email %>.</p>
+
+<p>Thanks again for you interest and support,</p>
+
+<p>--The <%= @site_title %> team</p>

@@ -1,0 +1,34 @@
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Contact Us" } %>
+
+    <div class="content_item_body">
+        <p class="hr">Feel free to get in touch using following form; or, if you prefer email, our address is <%= mail_to ConfigurationSetting.get_setting( 'SiteEmail' ), h(ConfigurationSetting.get_setting( 'SiteEmail' )) %></p>
+
+        <% form_tag do %>
+            <%= error_messages_for @errors %>
+            <%= render :partial => "/layouts/errors", :locals => { :errors => @errors, :object => "email", :verb => "sent" } %>
+            <div class="form_row">
+              <label for="subject" class="fieldname">Subject:</label>
+              <%= text_field_tag :subject, params[:subject], :class => "styled" %>
+            </div>
+            <div class="form_row">
+              <label for="name" class="fieldname">Your Name:</label>
+              <%= text_field_tag :name, params[:name], :class => "styled" %>
+            </div>
+            <div class="form_row">
+              <label for="email" class="fieldname">Your Email:</label>
+              <%= text_field_tag :email, params[:email], :class => "styled" %>
+            </div>
+            <div class="form_row hr">
+                <label for="body" class="fieldname left">Body:</label>
+                <%= text_area_tag :body, params[:body], :rows => (rows ||= 6), :class => "textarea" %>
+            </div>
+            <div class="form_row">
+                <%= render :partial => "/layouts/buttons/submit_button", :locals => { :value => "Send" } %>
+                <%= render :partial => "/layouts/buttons/cancel_button" %>
+            </div>
+            <div class="spacer h15"></div>
+        <% end %>
+    </div>
+    <div class="content_item_bottom"></div>
+</div>

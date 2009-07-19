@@ -1,0 +1,12 @@
+<div class="content_item" id="<%=(table_container ||= "table_container")%>">
+    <div class="content_item_title">    
+        <h2>
+			<%= pluralize(@comments.size, "comment") %>
+			<%= " | " << link_to("leave a comment","#add_comment") if (link_to_comment) %>
+		</h2>
+    </div>   
+    <div class="content_item_body nicelist">
+        <ol><%= render :partial => "/comments/row", :collection => @comments, :locals => {:in_edit_mode => in_edit_mode} %></ol>
+    </div>
+    <div class="content_item_bottom"></div>
+</div>  

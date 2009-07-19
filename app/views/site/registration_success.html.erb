@@ -1,0 +1,13 @@
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => ConfigurationSetting.get_setting("SiteTitle") + " Registration Succhess" } %>
+
+    <div class="content_item_body">
+        <h2>Thanks for registering!</h2>
+        <br />
+        <p>Before you can login to the system, your account must be approved by our staff. As soon as your request is reviewed, you'll receive another email 
+        notifying you of approval/rejection; once approved, you can login at any time.</p>
+        <p>Thanks for your interest and support!</p>
+        <p>--The <%= @site_title %> team</p>
+    </div>
+    <div class="content_item_bottom"></div>
+</div>

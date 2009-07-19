@@ -1,0 +1,31 @@
+<div id="<%=(table_container ||= "table_container")%>">
+    <div class="content_item_body"><%= render :partial => "/layouts/alphabet_links" %></div>
+    <% unless @users.size == 0 %>
+        <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @users, :always_show => true } %>
+        <div class="content_item_body">
+            <table class="tabular" cellspacing="0">
+                <colgroup>
+                    <col width="85%" />
+                    <col width="15%" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Joined</th>
+                    </tr>
+                </thead>
+                <tbody>
+                      <% @users.each do |user| %>
+                          <tr class="<%= cycle('alt', '') %> row">
+                              <td><%= user_status_link(user)%></td>
+                              <td><%= user.created_at.strftime('%b %d %Y') %></td>
+                          </tr>
+                      <% end %>
+                </tbody>
+            </table>
+        </div>
+        <%= render :partial => "/layouts/pagination_links", :locals =>  { :records => @users } %>
+    <% else %>
+        <div class="no_records">No matching users found.</div>
+    <% end %>
+</div>

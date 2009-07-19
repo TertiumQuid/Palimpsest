@@ -1,0 +1,52 @@
+<%= calendar_date_select_includes "red"  %>
+<div class="box">
+    <div class="box_title">Filter <%= action_name.humanize%> By:</div>
+    <div class="box_body">
+      
+        <% form_remote_tag :url => { :controller => "admin", 
+                           :action => action_name},
+                           :loading => "Element.show('spinner')",
+                           :complete => "Element.hide('spinner')",
+                           :update => "table_container" do %>
+            <div class="form_row hr">
+                <label for="username" class="fieldname" style="width:95%">User(s):<span class="fieldinfo">(one per line)</span></label><br />
+                <%= text_area_tag "username", params[:username], :rows => 2, :class => "textarea" %>
+            </div>
+            <div class="form_row hr">
+                <label for="user_id" class="fieldname" style="width:95%">IP Address(s):<span class="fieldinfo">(one per line)</span></label>
+                <%= text_area_tag "ip_address", params[:ip_address], :rows => 6, :class => "textarea" %>
+            </div>
+            <% if action_name == "audit_logs" %>
+                <div class="form_row">
+                    <label for="log_event" class="fieldname">Event:</label>
+                    <%= select_tag "log_event", "<option></option>" + options_for_select(AuditLog.distinct_events, selected = params[:log_event]), :class => "styled" %>
+                </div>
+                <div class="form_row hr">
+                    <label for="log_action" class="fieldname">Action:</label>
+                    <%= select_tag "log_action", "<option></option>" + options_for_select(AuditLog.distinct_pages, selected = params[:log_action]), :class => "styled" %>
+                </div>
+            <% elsif action_name == "exception_logs" %>
+                <div class="form_row">
+                    <label for="exception_type" class="fieldname w30">Type:</label>
+                    <%= select_tag "exception_type", "<option></option>" + options_for_select(ExceptionLog.distinct_exception_types, selected = params[:exception_type]), :class => "styled" %>
+                </div>
+                <div class="form_row hr">
+                    <label for="log_action" class="fieldname w30">Action:</label>
+                    <%= select_tag "log_action", "<option></option>" + options_for_select(ExceptionLog.distinct_pages, selected = params[:log_action]), :class => "styled" %>
+                </div>
+            <% end %>
+            <div class="form_row datepicker">
+                <label for="start_date" class="fieldname w30">From:</label>
+                <%= calendar_date_select_tag "start_date", params[:start_date],:year_range => 5.years.ago..0.years.ago %>
+            </div>
+            <div class="form_row datepicker hr">
+                <label for="end_date" class="fieldname w30">To:</label>
+                <%= calendar_date_select_tag "end_date", params[:end_date], :year_range => 5.years.ago..0.years.ago %>
+            </div>
+            <div class="form_row">
+                <%= render :partial => "/layouts/buttons/submit_button", :locals => {:value => "Apply", :name => "filter_audit_logs"} %>
+            </div>
+        <% end %>  
+    </div>
+    <div class="box_bottom"></div>
+</div>  

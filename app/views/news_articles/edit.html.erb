@@ -1,0 +1,15 @@
+<% content_for :stylesheets do %>
+    <%= stylesheet_link_tag "calendar" %>
+    <%= stylesheet_link_tag "news" %>
+<% end %>
+
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Edit News Article" } %>
+
+    <div class="content_item_body">
+        <%= render :partial => "/news_articles/form" %>
+    </div>          
+    <div class="content_item_bottom"></div>
+</div>  
+
+<%= render :partial => "/comments/table", :locals => {:link_to_comment => false, :in_edit_mode => true } %>

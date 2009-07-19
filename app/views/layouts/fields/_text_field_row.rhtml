@@ -1,0 +1,5 @@
+<div class="form_row">
+    <label for="<%=fieldname%>" class="fieldname"><%=label ||= fieldname.to_s.humanize.titlecase%>:</label>
+    <%= form.text_field fieldname, :class => "styled" %>
+    <%= "<span class='fieldinfo'>(#{info})</span>" if info ||= nil %>
+</div>

@@ -1,0 +1,44 @@
+<% form_for @news_article, :html => {:multipart => true} do |form| %>
+    <%= error_messages_for "news_article" %>
+    <%= render :partial => "/layouts/fields/text_field_row", :locals => { :form => form, :fieldname => :title } %>
+    <% use_tinymce -%>
+    <%= render :partial => "/layouts/fields/text_area_row",  :locals => { :form => form, :fieldname => :summary, :rows => 5, :css_class => "mceNoEditor" } %>
+    <%= render :partial => "/layouts/fields/text_area_row",  :locals => { :form => form, :fieldname => :body, :rows => 25 } %>
+    <%= render :partial => "/news_articles/category_select", :locals => { :form => form } %>
+    <%= render :partial => "/news_articles/comment_governance_select", :locals => { :form => form } %>
+    <%= render :partial => "/layouts/fields/checkbox_field_row", :locals => { :form => form, :fieldname => "moderate_comments", :label => "Moderate Comments" } %>
+    <div class="spacer h5">&nbsp;</div>
+    <div class="form_row">
+        <label for="tags" class="fieldname left h25" >Tags For This Article:</label>
+        <span class='fieldinfo right outdent10 p1 '>(Alphanumeric only, separate by comma; e.g. "Tag1, Tag 2, Tag3!!!" becomes "Tag1, Tag_2, Tag3")</span><br>
+        <%= text_field_tag "tags", (params[:tags] or @news_article.cached_tag_list), :class => "styled", :style => "width:400px;"%>
+    </div>
+    <% if @tags.size > 0 %>
+        <div class="form_row hr">
+            <div for="tags" class="fieldname">Use Existing Tags:</div>
+            <div class="block_tag">
+                <% @tags.each do |t| %>
+                  <span onclick="$('tags').value += ($('tags').value.blank() ? '' : ', ') + '<%=t.name%>';"><%=t.name%></span>
+                <% end %>
+            </div>
+        </div>
+    <% end %>
+
+    <div class="form_row">
+        <label for="recipients" class="fieldname left">Attachments:</label>
+        <div style="margin-left:200px;">
+          <div id="attachments">
+                <%= render :partial => '/news_articles/attachment', :collection => @news_article.file_attachments %>
+          </div>
+        <%= add_attachment_link "[ add attachment ]" %>
+        </div>
+    </div>
+
+
+    <div class="spacer h10 hr"></div>
+    <div class="form_row">
+        <%= render :partial => "/layouts/buttons/submit_button" %>
+        <%= render :partial => "/layouts/buttons/cancel_button" %>
+    </div>
+    <div class="spacer h15"></div>
+<% end %>

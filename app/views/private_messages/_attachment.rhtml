@@ -1,0 +1,8 @@
+<div class="attachment">
+<% fields_for "private_message[file_attachment_attributes][]", attachment do |attachment_form| %>
+  <p>
+    <%= attachment_form.file_field "attachment" %>
+    <%= link_to_function "<span class='minor_edit_text_link'>[ remove ]</span>", "$(this).up('.attachment').remove()" %>
+  </p>
+<% end %>
+</div>

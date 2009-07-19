@@ -1,0 +1,58 @@
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Features" } %>
+    <div class="content_item_body">
+        <p>The system and feature set is still very much under development, but at the moment the functional sections of the system include:</p>
+        <ul>
+            <li><em>Secure</em> web forums</li>
+            <li>Site news/blog</li>
+            <li>User management</li>
+            <li>Threaded private messaging <em>with SPAM/flood controls</em></li>
+            <li>Auditing safeguards to meet HIPAA, SOX, &c.</li>
+        </ul>
+        <p>From the development side of things, some technical facts include:</p>
+        <ul>
+            <li>Rails 2.1.1</li>
+            <li>RESTful design</li>
+            <li>Adherence to <a href="http://rubythis.blogspot.com/2006/11/rails-security-checklist.html" target="_blank">security best practices</a></li>
+            <li>Exception logging</li>
+            <li>Named routes only</li>
+            <li>AJAX pagination/sorting/searching <em>when appropriate</em></li>
+            <li>Multiple-file-uploads</li>
+            <li>Negative CAPTCHAs</li>
+            <li>Thin controllers, fat models</li>
+        </ul>
+		<p>A few of the next upgrades will include:</p>
+		<ul>
+			<li>Event Registration</li>
+			<li>Forums categories, forum-level permissions</li>
+			<li>Caching</li>
+			<li>Blog pinging</li>
+			<li>Rails 2.2</li>
+		</ul>
+    </div>
+    <div class="content_item_bottom"></div>
+</div>
+<div class="h10"></div>
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Acknowledgements" } %>
+
+    <div class="content_item_body">
+        <p>Like most rails projects, Palimpsest owes thanks to many individual public works.</p> 
+        <ul>
+            <li>Website template originally designed by <a href="http://arcsin.se/" target="_blank">Viktor Persson</a>.</li>
+            <li>We use <a href="http://www.spacebabies.nl/dnsbl_check/" target="_blank">dnsbl check</a> by Space Babies.</li>
+            <li><a href="http://www.jvoorhis.com/" target="_blank">Jeremy Voorhis</a> built a calendar helper that became our foundation for the same.</li>
+            <li>While for date picking, Tim Charper's <a href="http://code.google.com/p/calendardateselect/" target="_blank">calendar date select</a> proved to be in order.</li>
+            <li>We also use the celebrated <a href="http://tinymce.moxiecode.com/index.php" target="_blank">TinyMCE</a> editor.</li>
+            <li><a href="http://www.thoughtbot.com/projects/paperclip" target="_blank">Paperclip</a> was a clear choice for attachments and avatars.</li>
+            <li>Many of the icons you see are from the <a href="http://www.famfamfam.com/lab/icons/silk/" target="_blank">Slik Icons</a> set, or modified images therefrom.</li>
+            <li>Tagging thanks to <a href="http://agilewebdevelopment.com/plugins/acts_as_taggable_on_steroids" target="_blank">Acts as Taggable on Steroids</a></li>
+            <li>The pretty hover boxes are courtesy <a href="http://boxover.swazz.org/" target="_blank">swazz's boxover</a>.</li>
+            <li>techno weenie's <a href="http://weblog.techno-weenie.net/2006/9/3/white-listing-plugin-for-rails" target="_blank">white_list</a> keeps us safe and clean.</li>
+            <li>We couldn't forget the umbiquitous <a href="http://github.com/mislav/will_paginate/tree/master" target="_blank">will_paginate</a>.</li>
+            <li>Finally, Tom Anderson's <a href="http://wiki.rubyonrails.org/rails/pages/Tom+Anderson">Spawn</a> is to thank for a great fork/thread solution.</li>
+        </ul>
+        <p>Here's a list of other similar projects from december 2007: <a href="http://ananasblau.com/ruby-on-rails-cms" target="_blank">Ruby on Rails CMS</a></p>
+    </div>
+    <div class="content_item_bottom"></div>
+</div>

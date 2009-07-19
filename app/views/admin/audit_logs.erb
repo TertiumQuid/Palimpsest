@@ -1,0 +1,9 @@
+<div class="content_item">
+    <%= render :partial => "/layouts/content_item_title", :locals => { :title => "Audit Logs" } %>
+    <%= render :partial => "/admin/audit_log_table" %>
+    <div class="content_item_bottom"></div> 
+</div> 
+
+<% content_for :sidebar do %>
+    <%= render :partial => "/admin/log_filter_box" %>
+<% end %>  
